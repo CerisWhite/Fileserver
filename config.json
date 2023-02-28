@@ -1,0 +1,7 @@
+{
+	"ssl": false,
+	"key": "./cert/privkey.pem",
+	"cert": "./cert/cert.pem",
+	"ca": "./cert/chain.pem",
+	"port": 80
+}
