@@ -1,5 +1,5 @@
 const fs = require('fs');
-let http = "";
+let http = require('http');
 
 let Configuration = {};
 let CertConf = {};
@@ -14,7 +14,16 @@ if (fs.existsSync('./config.json')) {
 			ca: fs.readFileSync(Configuration['ca'])
 		}
 	}
-	else { http = require('http'); ServerPort = Configuration['port']; }
+	else { ServerPort = Configuration['port']; }
+}
+else {
+	fs.writeFileSync('./config.json', JSON.stringify({
+		"ssl": false,
+		"key": "./cert/privkey.pem",
+		"cert": "./cert/cert.pem",
+		"ca": "./cert/chain.pem",
+		"port": 80
+	}, null, 4));
 }
 
 function GetCurrentDate() {
