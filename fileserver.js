@@ -26,11 +26,6 @@ else {
 	}, null, 4));
 }
 
-function GetCurrentDate() {
-	const date = new Date();
-    return date.toUTCString();
-}
-
 http.createServer(CertConf, (req, res) => {
 	const URLPath = req.url.split("?");
 	if (URLPath[0] == Configuration['key']) {
@@ -56,7 +51,7 @@ http.createServer(CertConf, (req, res) => {
 				res.end('404: File not found');
 			}
 			else {
-				res.writeHead(200, HeadersData);
+				res.writeHead(200);
 				res.end(data);
 			}
 		});
