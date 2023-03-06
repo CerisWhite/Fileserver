@@ -6,7 +6,7 @@ let CertConf = {};
 let ServerPort = 80;
 if (fs.existsSync('./config.json')) {
 	Configuration = JSON.parse(fs.readFileSync('./config.json'));
-	if (Configuration['ssl'] == true) {
+	if (Configuration['ssl'] === true) {
 		http = require('https'); 
 		CertConf = {
 			key: fs.readFileSync(Configuration['key']),
@@ -14,7 +14,9 @@ if (fs.existsSync('./config.json')) {
 			ca: fs.readFileSync(Configuration['ca'])
 		}
 	}
-	else { ServerPort = Configuration['port']; }
+	if (Configuration['port'] !== undefined) {
+		ServerPort = Configuration['port']; 
+	}
 }
 else {
 	fs.writeFileSync('./config.json', JSON.stringify({
@@ -28,6 +30,7 @@ else {
 
 http.createServer(CertConf, (req, res) => {
 	const URLPath = req.url.split("?");
+	if (URLPath.includes("..")) { res.writeHead(404); res.end('404: File not found'); }
 	if (URLPath[0] == Configuration['key']) {
 		res.writeHead(404);
 		res.end('404: File not found');
